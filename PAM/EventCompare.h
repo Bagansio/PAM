@@ -5,6 +5,7 @@ struct EventCompare {
     {
         // return "true" if "p1" is ordered
         // before "p2", for example:
-        return e1.currentTime < e2.currentTime;
+        //cout << e1.currentTime << " " << e2.currentTime << " " << (e1.currentTime < e2.currentTime) << endl;
+        return e1.currentTime > e2.currentTime;
     }
 };

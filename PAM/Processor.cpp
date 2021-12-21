@@ -14,6 +14,11 @@ void Processor::simulationStart(Scheduler* scheduler, int pos) {
 
 void Processor::treateEvent(Event event) {
 	switch (event.type) {
+	case GET_CLIENT:
+		if (this->state == IDLE) {
+			(*scheduler).eventList.push(Event(event.currentTime, NEXT_ARRIVAL, NULL, QUEUE, pos));
+		}
+		break;
 	case PROCESS:
 		if (this->state == IDLE) {
 			state = WORK;
@@ -22,8 +27,9 @@ void Processor::treateEvent(Event event) {
 		break;
 	case PROCESSED:
 		this->state = IDLE;
-		(*scheduler).eventList.push(Event(event.currentTime, GET_CLIENT, NULL, QUEUE, pos));
-		(*scheduler).eventList.push(Event(event.currentTime, NEXT_ARRIVAL, event.person, SINK, NULL));
+		++clientsProcessed;
+		(*scheduler).eventList.push(Event(event.currentTime, NEXT_ARRIVAL, NULL, QUEUE, pos));
+		(*scheduler).eventList.push(Event(event.currentTime, TRANSFER, event.person, SINK, NULL));
 		break;
 
 	default:
@@ -34,6 +40,8 @@ void Processor::treateEvent(Event event) {
 
 
 void Processor::summary() {
-	cout << "CAJA " + pos << endl;
-	cout << "Numero de clientes procesados en la caja "  + clientsProcessed << endl;
+	cout << "CAJA: ";
+	cout << pos << endl;
+	cout << "Numero de clientes procesados en la caja ";
+	cout << clientsProcessed << endl;
 }

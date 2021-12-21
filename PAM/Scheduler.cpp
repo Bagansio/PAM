@@ -33,11 +33,6 @@ void Scheduler::configure() {
 	}
 }
 
-
-bool compare(Event a, Event b) {
-	return a.currentTime < b.currentTime;
-}
-
 void Scheduler::createModel() {
 
 
@@ -51,7 +46,7 @@ void Scheduler::createModel() {
 		processors[i].simulationStart(this, i);
 	}
 
-	eventList = priority_queue<Event, vector<Event>, EventCompare>();
+	eventList;
 	Event startEvent = Event(0, STARTSIM, NULL,SCHEDULER, NULL);
 	eventList.push(startEvent);
 
@@ -63,9 +58,9 @@ void Scheduler::run() {
 
 	currentTime = 0;
 
-	while (currentTime < simulationTime) { //simulate
-		
+	while (currentTime < simulationTime && ! eventList.empty()) { //simulate
 		Event event = eventList.top();
+		//cout << event.father << " " << eventList.size() << endl;
 		eventList.pop();
 
 		currentTime = event.currentTime;
@@ -98,15 +93,28 @@ void Scheduler::run() {
 		//trace
 
 		//event.father.tractaEsdeveniment(event);
-
 	}
+	/*
+	cout << eventList.size() << endl;
+	while (!eventList.empty()) {
+		Event e = eventList.top();
+		eventList.pop();
 
+		cout << e.currentTime << " " << e.type << " " << e.father << endl;
+	}
+	*/
 	getStadistics();
 }
 
 void Scheduler::getStadistics() {
 	cout << "ESTADISTICOS:" << endl;
 
+	source.summary();
+	clientsQueue.summary();
+	sink.summary();
+	for (Processor p : processors) {
+		p.summary();
+	}
 	//por cada cosa un estadistico, por ello el array de procesors el ultimo
 }
 
@@ -114,5 +122,8 @@ void Scheduler::getStadistics() {
 void Scheduler::treateEvent(Event event) {
 	if (event.type == STARTSIM){
 		eventList.push(Event(0, NEXT_ARRIVAL, NULL, SOURCE, NULL));
+		for (int i = 0; i < processorsSize; ++i) {
+			eventList.push(Event(0, NEXT_ARRIVAL, NULL, QUEUE, i));
+		}
 	}
 }

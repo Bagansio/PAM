@@ -24,7 +24,7 @@ public:
 
 	void simulationStart(Scheduler* scheduler);
 
-	//void getStadistics();
+	void summary();
 };
 
 #endif

@@ -15,14 +15,19 @@
 
 using namespace std;
 
+
+
 class Scheduler {
 public:
 	double currentTime;
+
+
 	priority_queue<Event, vector<Event>, EventCompare> eventList;
 	double simulationTime;
 	double arrivalTimeMean;
 	double arrivalTimeDev;
 	int processorsSize;
+
 
 
 	

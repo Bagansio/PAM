@@ -19,10 +19,11 @@ void Source::simulationStart(Scheduler* scheduler, double arrivalTimeMean, doubl
 
 
 void Source::processNextArrival(Event e) {
-	this->nextArrival(e.currentTime);
+	
 	this->clientsCreated++;
 	Person person(e.currentTime);
-	(*scheduler).eventList.push(Event(e.currentTime, NEXT_ARRIVAL, person, QUEUE, NULL));
+	(*scheduler).eventList.push(Event(e.currentTime, TRANSFER, person, QUEUE, NULL));
+	this->nextArrival(e.currentTime);
 }
 
 void Source::nextArrival(double time) {

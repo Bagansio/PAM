@@ -21,10 +21,13 @@ void Queue::treateEvent(Event event) {
 			++totalClients;
 			break;
 		case NEXT_ARRIVAL:
-			if (!queue.empty()) {
+			if (! queue.empty()) {
 				(*scheduler).eventList.push(Event(event.currentTime, PROCESS, queue.front(), PROCESSOR, event.fatherPos));
+				queue.pop();
 			}
-			queue.pop();
+			else {
+				(*scheduler).eventList.push(Event(event.currentTime + 1, GET_CLIENT, NULL, PROCESSOR, event.fatherPos));
+			}
 			break;
 		default:
 			break;

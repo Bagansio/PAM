@@ -10,10 +10,9 @@ Sink::Sink() {
 
 void Sink::treateEvent(Event event) {
 	if (event.type == TRANSFER) {
-		//double avg = timeAv * peopleOut;
 		++peopleOut;
 		event.person.setStayTime(event.currentTime);
-		timeAv = (timeAv + event.person.liveTime) / peopleOut;
+		timeAv = (timeAv + event.person.liveTime);
 	}
 }
 
@@ -24,6 +23,16 @@ void Sink::simulationStart(Scheduler* scheduler) {
 	this->scheduler = scheduler;
 }
 
+void Sink::summary() {
+	cout << "Clientes salidos del sistema ";
+	cout << peopleOut << endl;
+	cout << "Tiempo medio en el sistema ";
+	if (peopleOut == 0)
+		cout << 0;
+	else
+		cout << timeAv / peopleOut;
+	cout  << endl;
+}
 
 
 
