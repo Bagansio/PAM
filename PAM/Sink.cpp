@@ -15,4 +15,13 @@ void Sink::treateEvent(Event event) {
 	}
 }
 
+void Sink::simulationStart(Scheduler* scheduler) {
+	peopleOut = 0;
+	state = SERVICE;
+	timeAv = 0;
+	this->scheduler = scheduler;
+}
+
+
+
 

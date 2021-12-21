@@ -9,17 +9,16 @@
 using namespace std;
 
 class Processor {
+public:
+	int pos;
 	States state;
 	Scheduler* scheduler;
-	int tempsCicle;
-	int ciclesTotals;
-	vector<Person> cua;
+	double processorTime;
+	long clientsProcessed;
 
-	void inicialitza(Scheduler* scheduler, int parameter);
+	void treateEvent(Event event);
 
-	void tractarEsdeveniment(Event event);
-
-	void simulationStart();
+	void simulationStart(Scheduler* scheduler,int pos);
 
 	void summary();
 };

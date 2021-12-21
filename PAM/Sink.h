@@ -1,13 +1,14 @@
-#ifndef SINK_HH
-#define SINK_HH
 
+#pragma once
 #include "Event.h"
 #include "States.h"
+#include "Scheduler.h"
 
 class Sink {
 public:
 	long peopleOut;
 	States state;
+	Scheduler* scheduler;
 
 	double timeAv;
 
@@ -15,9 +16,8 @@ public:
 
 	Sink();
 
-	void simulationStart();
+	void simulationStart(Scheduler* scheduler);
 
 	void getStadistics();
 };
 
-#endif
