@@ -1,4 +1,7 @@
+#include "Scheduler.h"
 #include "Queue.h"
+
+
 
 Queue::Queue() {
 
@@ -8,7 +11,6 @@ void Queue::simulationStart(Scheduler* scheduler) {
 	this->totalClients = 0;
 	this->scheduler = scheduler;
 	this->schedulerStepIn = false;
-	this->queue = queue<Person>();
 	this->state = SERVICE;
 }
 

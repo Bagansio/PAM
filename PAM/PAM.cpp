@@ -3,7 +3,6 @@
 
 #include "PAM.h"
 #include "Scheduler.h"
-#include "Event.h"
 
 using namespace std;
 

@@ -1,14 +1,18 @@
-#pragma once
+
+#ifndef QUEUE_HH
+#define QUEUE_HH
+
+
+
 #include <iostream>
 #include <vector>
-#include "Scheduler.h"
 #include "Event.h"
 #include "Person.h"
 #include "States.h"
 #include <queue>
 
 using namespace std;
-
+class Scheduler;
 class Queue {
 
 public:
@@ -26,3 +30,5 @@ public:
 
 	void summary();
 };
+
+#endif

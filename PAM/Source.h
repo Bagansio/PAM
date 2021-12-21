@@ -1,14 +1,19 @@
-#pragma once
+#ifndef SOURCE_HH
+#define SOURCE_HH
+
 #include <iostream>
 #include <string>
 #include <vector>
 #include <random>
 #include "States.h"
 #include "Event.h"
-#include "Scheduler.h"
-#include "Queue.h"
+
+
 
 using namespace std;
+
+class Scheduler;
+class Queue;
 
 class Source
 {
@@ -30,3 +35,5 @@ public:
 
 	void summary();
 };
+
+#endif

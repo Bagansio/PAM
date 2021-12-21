@@ -4,11 +4,14 @@
 #include <iostream>
 #include <queue>
 #include "Event.h"
-#include "Sink.h"
+#include "EventCompare.h"
 #include "Source.h"
 #include "Queue.h"
 #include "Processor.h"
-#include "EventCompare.cpp"
+#include "Scheduler.h"
+#include "Sink.h"
+
+
 
 using namespace std;
 
@@ -27,6 +30,7 @@ public:
 	Queue clientsQueue;
 	vector<Processor> processors;
 	Sink sink;
+
 	Scheduler();
 
 	void configure();

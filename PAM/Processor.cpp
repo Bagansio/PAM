@@ -1,4 +1,6 @@
+#include "Scheduler.h"
 #include "Processor.h"
+
 
 
 void Processor::simulationStart(Scheduler* scheduler, int pos) {
@@ -14,7 +16,7 @@ void Processor::treateEvent(Event event) {
 	switch (event.type) {
 	case PROCESS:
 		if (this->state == IDLE) {
-			this->state = WORK;
+			state = WORK;
 			(*scheduler).eventList.push(Event(event.currentTime + this->processorTime, PROCESSED, event.person, PROCESSOR, this->pos));
 		}
 		break;
@@ -32,5 +34,6 @@ void Processor::treateEvent(Event event) {
 
 
 void Processor::summary() {
-	cout << "Numero de clientes procesados en la caja " + pos + " : " << this->clientsProcessed << endl;
+	cout << "CAJA " + pos << endl;
+	cout << "Numero de clientes procesados en la caja "  + clientsProcessed << endl;
 }

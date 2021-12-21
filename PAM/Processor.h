@@ -1,12 +1,18 @@
+#ifndef PROCESSOR_HH
+#define PROCESSOR_HH
+#include "States.h"
 #include <algorithm>
 #include <random>
 #include <iostream>
 #include <vector>
 #include "Event.h"
 #include "Person.h"
-#include "States.h"
-#include "Scheduler.h"
+
+
+
 using namespace std;
+
+class Scheduler;
 
 class Processor {
 public:
@@ -22,3 +28,4 @@ public:
 
 	void summary();
 };
+#endif
