@@ -1,5 +1,18 @@
 #include "Person.h"
 
 Person::Person() {
-	a = 5;
+	startTime = liveTime = -1;
+
+
 }
+
+Person::Person(double currentTime) {
+	startTime = currentTime;
+	liveTime = -1;
+}
+
+
+void Person::setStayTime(double time) {
+	liveTime = time - startTime;
+}
+

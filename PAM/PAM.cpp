@@ -2,14 +2,14 @@
 //
 
 #include "PAM.h"
-#include "Person.h"
+#include "Scheduler.h"
+#include "Event.h"
 
 using namespace std;
 
 int main()
 {
-	Person p;
-	cout << p.a;
-	cout << "Hello CMake." << endl;
+	Scheduler scheduler;
+	scheduler.run();
 	return 0;
 }
