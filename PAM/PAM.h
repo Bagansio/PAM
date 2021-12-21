@@ -4,5 +4,6 @@
 #pragma once
 
 #include <iostream>
+#include <random>
 
 // TODO: Haga referencia aquí a los encabezados adicionales que el programa requiere.
