@@ -19,7 +19,8 @@ public:
 	int pos;
 	States state;
 	Scheduler* scheduler;
-	double processorTime;
+	default_random_engine generator;
+	normal_distribution<double> distribution;
 	long clientsProcessed;
 
 	void treateEvent(Event event);

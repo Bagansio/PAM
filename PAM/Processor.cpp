@@ -8,7 +8,7 @@ void Processor::simulationStart(Scheduler* scheduler, int pos) {
 	this->scheduler = scheduler;
 	this->state = IDLE;
 	(*scheduler).eventList.push(Event(0, GET_CLIENT, NULL, QUEUE, pos));
-	this->processorTime = 5;
+	this->distribution = normal_distribution<double>(5.0, 2);
 	this->clientsProcessed = 0;
 }
 
@@ -22,7 +22,8 @@ void Processor::treateEvent(Event event) {
 	case PROCESS:
 		if (this->state == IDLE) {
 			state = WORK;
-			(*scheduler).eventList.push(Event(event.currentTime + this->processorTime, PROCESSED, event.person, PROCESSOR, this->pos));
+			double plusTime = abs(distribution(generator));
+			(*scheduler).eventList.push(Event(event.currentTime + plusTime, PROCESSED, event.person, PROCESSOR, this->pos));
 		}
 		break;
 	case PROCESSED:

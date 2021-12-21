@@ -7,7 +7,7 @@
 #include <random>
 #include "States.h"
 #include "Event.h"
-
+#include <cmath>
 
 
 using namespace std;
@@ -19,8 +19,8 @@ class Source
 {
 public:
 	long clientsCreated;
-	double arrivalTimeMean;
-	double arrivalTimeDev;
+	default_random_engine generator;
+	normal_distribution<double> distribution;
 	States state;
 	Scheduler* scheduler;
 
