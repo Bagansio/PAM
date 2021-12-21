@@ -1,5 +1,7 @@
 #include "Scheduler.h"
 
+
+
 Scheduler::Scheduler() {
 	currentTime = 0;
 	simulationTime = 100;
@@ -19,9 +21,11 @@ void Scheduler::configure() {
 		cin >> arrivalTimeMean;
 		cout << "Desviacion entre llegadas:" << endl;
 		cin >> arrivalTimeDev;
+		cout << "Numero de cajeros:" << endl;
+		cin >> processorsSize;
 
-		if (arrivalTimeDev < 0 || simulationTime < 0 || arrivalTimeMean < 0) {
-			cout << "ERROR: LOS TIEMPOS Y DESVIACIÓN DEBEN SER POSITIVOS" << endl;
+		if (arrivalTimeDev < 0 || simulationTime < 0 || arrivalTimeMean < 0 || processorsSize < 0) {
+			cout << "ERROR: LOS TIEMPOS, DESVIACIÓN  Y NUMERO DE CAJEROS DEBEN SER MAYOR QUE CERO" << endl;
 		}
 		else {
 			error = false;
@@ -29,13 +33,20 @@ void Scheduler::configure() {
 	}
 }
 
-
 void Scheduler::createModel() {
-	//create source
-	//create queue
-	//create List/array procesors
-	//create sink
-	eventList = queue<Event>();
+
+
+	source.simulationStart(this, arrivalTimeMean, arrivalTimeDev);
+	sink.simulationStart(this);
+	clientsQueue.simulationStart(this);
+
+	processors = vector<Processor>(processorsSize);
+
+	for (int i = 0; i < processorsSize; ++i) {
+		processors[i].simulationStart(this, i);
+	}
+
+	eventList;
 	Event startEvent = Event(0, STARTSIM, NULL,SCHEDULER, NULL);
 	eventList.push(startEvent);
 
@@ -47,9 +58,9 @@ void Scheduler::run() {
 
 	currentTime = 0;
 
-	while (currentTime < simulationTime) { //simulate
-		
-		Event event = eventList.front();
+	while (currentTime < simulationTime && ! eventList.empty()) { //simulate
+		Event event = eventList.top();
+		//cout << event.father << " " << eventList.size() << endl;
 		eventList.pop();
 
 		currentTime = event.currentTime;
@@ -58,14 +69,21 @@ void Scheduler::run() {
 			case SCHEDULER:
 				treateEvent(event);
 				break;
+
 			case QUEUE:
-				//calls to queue.treateEvent(event)
+				clientsQueue.treateEvent(event);
 				break;
 
 			case SINK:
+				sink.treateEvent(event);
 				break;
 
 			case SOURCE:
+				source.treateEvent(event);
+				break;
+
+			case PROCESSOR:
+				processors[event.fatherPos].treateEvent(event);
 				break;
 
 			default:
@@ -75,22 +93,37 @@ void Scheduler::run() {
 		//trace
 
 		//event.father.tractaEsdeveniment(event);
-
 	}
+	/*
+	cout << eventList.size() << endl;
+	while (!eventList.empty()) {
+		Event e = eventList.top();
+		eventList.pop();
 
+		cout << e.currentTime << " " << e.type << " " << e.father << endl;
+	}
+	*/
 	getStadistics();
 }
 
 void Scheduler::getStadistics() {
 	cout << "ESTADISTICOS:" << endl;
 
+	source.summary();
+	clientsQueue.summary();
+	sink.summary();
+	for (Processor p : processors) {
+		p.summary();
+	}
 	//por cada cosa un estadistico, por ello el array de procesors el ultimo
 }
 
 
 void Scheduler::treateEvent(Event event) {
 	if (event.type == STARTSIM){
-		currentTime = simulationTime;
-		//calls to simulationStart function of each member
+		eventList.push(Event(0, NEXT_ARRIVAL, NULL, SOURCE, NULL));
+		for (int i = 0; i < processorsSize; ++i) {
+			eventList.push(Event(0, NEXT_ARRIVAL, NULL, QUEUE, i));
+		}
 	}
 }

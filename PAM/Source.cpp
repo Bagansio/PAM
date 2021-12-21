@@ -1,38 +1,36 @@
+#include "Scheduler.h"
+#include "Queue.h"
 #include "Source.h"
 
-void Source::inicialitza(Scheduler* scheduler, int parameter) {
-	this->EntitatsCreades = 0;
-	this->state = Enumeration.SERVICE;
-	this->scheduler = scheduler;
-	this->parameter = parameter;
-	this->caixes = vector<Queue>;
-}
 
-void Source::actualitzaCaixes(vector<Queue> caixes) {
-	this->caixes = caixes;
-}
 
-void Source::tractarEsdeveniment(Event e) {
-	if (e.type == EventType.NextArrival) 
+void Source::treateEvent(Event e) {
+	if (e.type == NEXT_ARRIVAL) 
 		this->processNextArrival(e);
 }
 
-void Source::simulationStart() {
-	EntitatsCreades = 0;
-	this->properaArribada(0);
+void Source::simulationStart(Scheduler* scheduler, double arrivalTimeMean, double arrivalTimeDev) {
+	clientsCreated = 0;
+	state = SERVICE;
+	this->distribution = normal_distribution<double>(arrivalTimeMean, arrivalTimeDev);
+	this->scheduler = scheduler;
+	this->nextArrival(0);
 }
+
 
 void Source::processNextArrival(Event e) {
-	this->properaArribada(e.tid);
-	this->EntitatsCreades++;
-	Person person(e.tid);
-	this->scheduler->afegirEsdeveniment(Event(this->caixes[person.fila], e.tid, EventType.Transfer, person));
+	
+	this->clientsCreated++;
+	Person person(e.currentTime);
+	(*scheduler).eventList.push(Event(e.currentTime, TRANSFER, person, QUEUE, NULL));
+	this->nextArrival(e.currentTime);
 }
 
-void Source::properaArribada(int temps) {
-	this->scheduler.afegirEsdeveniment(Event(temps+this->parameter, EventType.NextArrival, NULL))
+void Source::nextArrival(double time) {
+	double plusTime = abs(distribution(generator));
+	(*scheduler).eventList.push(Event(time + plusTime, NEXT_ARRIVAL, NULL, SOURCE, NULL));
 }
 
 void Source::summary() {
-	cout << "Entitats generades en el sistema: " << this->EntitatsCreades << endl;
+	cout << "Clientes generados en el sistema: " << this->clientsCreated << endl;
 }

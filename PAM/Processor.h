@@ -1,25 +1,32 @@
+#ifndef PROCESSOR_HH
+#define PROCESSOR_HH
+#include "States.h"
 #include <algorithm>
 #include <random>
 #include <iostream>
 #include <vector>
 #include "Event.h"
 #include "Person.h"
-#include "States.h"
-#include "Scheduler.h"
+
+
+
 using namespace std;
 
+class Scheduler;
+
 class Processor {
+public:
+	int pos;
 	States state;
 	Scheduler* scheduler;
-	int tempsCicle;
-	int ciclesTotals;
-	vector<Person> cua;
+	default_random_engine generator;
+	normal_distribution<double> distribution;
+	long clientsProcessed;
 
-	void inicialitza(Scheduler* scheduler, int parameter);
+	void treateEvent(Event event);
 
-	void tractarEsdeveniment(Event event);
-
-	void simulationStart();
+	void simulationStart(Scheduler* scheduler,int pos);
 
 	void summary();
 };
+#endif

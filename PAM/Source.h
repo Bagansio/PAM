@@ -1,33 +1,39 @@
-#pragma once
+#ifndef SOURCE_HH
+#define SOURCE_HH
+
 #include <iostream>
 #include <string>
 #include <vector>
 #include <random>
-#include "Enumeration.h"
+#include "States.h"
 #include "Event.h"
-#include "Scheduler.h"
-#include "Queue.h"
+#include <cmath>
+
 
 using namespace std;
 
+class Scheduler;
+class Queue;
+
 class Source
 {
-	int EntitatsCreades, parameter;
-	Enumeration state;
+public:
+	long clientsCreated;
+	default_random_engine generator;
+	normal_distribution<double> distribution;
+	States state;
 	Scheduler* scheduler;
-	vector<Queue> caixes;
 
-	void inicialitza(Scheduler* scheduler, int parameter);
 
-	void actualitzaCaixes(vector <Queue> caixes);
+	void treateEvent(Event e);
 
-	void tractarEsdeveniment(Event e);
-
-	void simulationStart();
+	void simulationStart(Scheduler* scheduler, double arrivalTimeMean, double arrivalTimeDev);
 
 	void processNextArrival(Event e);
 
-	void properaArribada(int temps);
+	void nextArrival(double temps);
 
 	void summary();
 };
+
+#endif
