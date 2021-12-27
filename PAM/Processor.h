@@ -17,6 +17,8 @@ class Scheduler;
 class Processor {
 public:
 	int pos;
+	double proccessingTime;
+	double plusTime;
 	States state;
 	Scheduler* scheduler;
 	default_random_engine generator;

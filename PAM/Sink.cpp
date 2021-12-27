@@ -24,6 +24,7 @@ void Sink::simulationStart(Scheduler* scheduler) {
 }
 
 void Sink::summary() {
+	cout << "SINK:" << endl;
 	cout << "Clientes salidos del sistema ";
 	cout << peopleOut << endl;
 	cout << "Tiempo medio en el sistema ";
@@ -31,7 +32,8 @@ void Sink::summary() {
 		cout << 0;
 	else
 		cout << timeAv / peopleOut;
-	cout  << endl;
+	cout << endl;
+	cout << "---------------------------" << endl;
 }
 
 

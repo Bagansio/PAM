@@ -32,5 +32,7 @@ void Source::nextArrival(double time) {
 }
 
 void Source::summary() {
+	cout << "SOURCE:" << endl;
 	cout << "Clientes generados en el sistema: " << this->clientsCreated << endl;
+	cout << "---------------------------" << endl;
 }

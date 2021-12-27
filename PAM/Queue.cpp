@@ -37,5 +37,7 @@ void Queue::treateEvent(Event event) {
 
 
 void Queue::summary() {
-	cout << "Clientes que han estado en la cola: " << this->totalClients << endl << "Clientes en cola: " << this->queue.size() << endl;
+	cout << "QUEUE:" << endl;
+	cout << "Clientes que han salido de la cola: " << this->totalClients  - this->queue.size() << endl << "Clientes en cola: " << this->queue.size() << endl;
+	cout << "---------------------------" << endl;
 }

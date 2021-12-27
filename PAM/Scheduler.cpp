@@ -108,7 +108,7 @@ void Scheduler::run() {
 
 void Scheduler::getStadistics() {
 	cout << "ESTADISTICOS:" << endl;
-
+	cout << "---------------------------" << endl;
 	source.summary();
 	clientsQueue.summary();
 	sink.summary();

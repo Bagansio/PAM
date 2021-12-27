@@ -5,6 +5,7 @@
 
 void Processor::simulationStart(Scheduler* scheduler, int pos) {
 	this->pos = pos;
+	this->proccessingTime = 0;
 	this->scheduler = scheduler;
 	this->state = IDLE;
 	(*scheduler).eventList.push(Event(0, GET_CLIENT, NULL, QUEUE, pos));
@@ -22,7 +23,8 @@ void Processor::treateEvent(Event event) {
 	case PROCESS:
 		if (this->state == IDLE) {
 			state = WORK;
-			double plusTime = abs(distribution(generator));
+			plusTime = abs(distribution(generator));
+			proccessingTime += plusTime;
 			(*scheduler).eventList.push(Event(event.currentTime + plusTime, PROCESSED, event.person, PROCESSOR, this->pos));
 		}
 		break;
@@ -41,8 +43,17 @@ void Processor::treateEvent(Event event) {
 
 
 void Processor::summary() {
-	cout << "CAJA: ";
+	cout.setf(ios::fixed);
+	cout.precision(2);
+	double idleTime = ((*scheduler).simulationTime - proccessingTime) / (*scheduler).simulationTime * 100;
+	if (idleTime < 0) //si esta ocupado todo el rato
+		idleTime = 0;
+	cout << "CAJA (PROCESSOR): ";
 	cout << pos << endl;
 	cout << "Numero de clientes procesados en la caja ";
 	cout << clientsProcessed << endl;
+	cout << "Porcentaje en estado 'IDLE' ";
+	cout << idleTime;
+	cout << "%" << endl;
+	cout << "---------------------------" << endl;
 }
