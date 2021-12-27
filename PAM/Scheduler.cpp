@@ -60,7 +60,6 @@ void Scheduler::run() {
 
 	while (currentTime < simulationTime && ! eventList.empty()) { //simulate
 		Event event = eventList.top();
-		//cout << event.father << " " << eventList.size() << endl;
 		eventList.pop();
 
 		currentTime = event.currentTime;
@@ -89,20 +88,7 @@ void Scheduler::run() {
 			default:
 				break;
 		}
-
-		//trace
-
-		//event.father.tractaEsdeveniment(event);
 	}
-	/*
-	cout << eventList.size() << endl;
-	while (!eventList.empty()) {
-		Event e = eventList.top();
-		eventList.pop();
-
-		cout << e.currentTime << " " << e.type << " " << e.father << endl;
-	}
-	*/
 	getStadistics();
 }
 
@@ -115,7 +101,6 @@ void Scheduler::getStadistics() {
 	for (Processor p : processors) {
 		p.summary();
 	}
-	//por cada cosa un estadistico, por ello el array de procesors el ultimo
 }
 
 
